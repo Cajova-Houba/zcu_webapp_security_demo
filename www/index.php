@@ -1,19 +1,21 @@
 <?php
   session_start();
 
-$_SESSION['id'] = 1;
-
   $conn = mysql_connect('localhost', 'root', '');
   if (!$conn) {
     die("Connection failed: " . mysql_error());
   }
   mysql_select_db('zcu_demo');
 
+  $current_user_id = -1;
   $current_user = '[not logged in]';
   if (array_key_exists('id', $_SESSION)) {
-    $result = mysql_query('SELECT username FROM user WHERE id=' . $_SESSION['id']);
+    $current_user_id = $_SESSION['id'];
+    $result = mysql_query('SELECT username FROM user WHERE id=' . $current_user_id);
     $row = mysql_fetch_array($result);
     $current_user = $row['username'];
+  } else {
+    unset($_REQUEST['action']); // no action means: go to login
   }
 ?>
 
@@ -24,6 +26,7 @@ $_SESSION['id'] = 1;
 <?php
 echo '<h5>Logged as: ' . $current_user . '</h5><hr>';
 
+// -------------------------- DISPLAY LOGIN FORM
 if (!array_key_exists('action', $_REQUEST)) {
 ?>
   <form method='post'>
@@ -37,8 +40,23 @@ if (!array_key_exists('action', $_REQUEST)) {
     <input type='hidden' name='action' value='login'>
   </form>
 
+
 <?php
+// -------------------------- PROCESS LOGIN
 } elseif ('login' == $_REQUEST['action']) {
+  $result = mysql_query("SELECT id FROM user WHERE username='" . $_REQUEST['username'] . "' AND password='" . $_REQUEST['password'] . "'");
+  $row = mysql_fetch_assoc($result);
+  if ($row) {
+    $_SESSION['id'] = $row['id'];
+    header("Location: index.php?action=list"); // redirect to list of notices
+    exit;
+  }
+?>
+
+
+<?php
+// -------------------------- DISPLAY LIST OF NOTICES
+} elseif ('list' == $_REQUEST['action']) {
 ?>
   <form method='post'>
     Notice:<br>
@@ -61,9 +79,10 @@ if (!array_key_exists('action', $_REQUEST)) {
 
 
 <?php
+// -------------------------- CREATE NEW NOTICE
 } elseif ('create' == $_REQUEST['action']) {
   echo 'yyyyyyyyyyyyy ' . $_REQUEST['notice'];
-  mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(1,'" . $_REQUEST['notice'] . "')");
+  mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_REQUEST['notice'] . "')");
 
   echo '<br> xxxxxxxxxxxxxxxxxxxxxxxxx';
 ?>

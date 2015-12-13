@@ -15,3 +15,4 @@ Created for University of West Bohemia.
 > vagrant up
 ```
 * in browser go to http://192.168.33.10/index.php
+
