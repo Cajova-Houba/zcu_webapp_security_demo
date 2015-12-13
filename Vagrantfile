@@ -14,16 +14,16 @@ Vagrant.configure(2) do |config|
 
   config.vm.network "private_network", ip: "192.168.33.10"
   config.vm.synced_folder ".", "/opt/zcu_demo"#, type: "rsync"
-  config.vbguest.auto_update = false
+#  config.vbguest.auto_update = false
 
   config.vm.provision "shell", inline: <<-SHELL
-    # sudo yum -y update
-    # sudo yum -y install httpd
-    # sudo systemctl enable httpd.service
-    # sudo yum -y install mariadb-server mariadb
-    # sudo systemctl enable mariadb.service
-    # sudo yum -y install php php-mysql
-    # sudo yum clean all
+    sudo yum -y update
+    sudo yum -y install httpd
+    sudo systemctl enable httpd.service
+    sudo yum -y install mariadb-server mariadb
+    sudo systemctl enable mariadb.service
+    sudo yum -y install php php-mysql
+    sudo yum clean all
     mysql -u root < /opt/zcu_demo/db/create_db.ddl
     mysql -u root zcu_demo < /opt/zcu_demo/db/init_data.dml
     sudo cp /opt/zcu_demo/www/index.php /var/www/html/
