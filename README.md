@@ -22,9 +22,11 @@ Created for University of West Bohemia.
 
 ### A1 – Injection
 
-
-
-
+### XSS
+* put following text as notice
+```html
+<b onmouseup=alert("XSS!")>click me!</b>
+```
 ___
 
 ### TODOs:
