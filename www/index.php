@@ -33,7 +33,7 @@ echo '<h5>Logged as: ' . $current_user . '</h5><hr>';
 // print_r($row);
 
 // -------------------------- DISPLAY LOGIN FORM
-if (!array_key_exists('action', $_REQUEST)) {
+if (!array_key_exists('action', $_GET) && !array_key_exists('action', $_POST)) {
 ?>
   <form method='post'>
     Username:<br>
@@ -49,10 +49,10 @@ if (!array_key_exists('action', $_REQUEST)) {
 
 <?php
 // -------------------------- PROCESS LOGIN
-} elseif ('login' == $_REQUEST['action']) {
-  $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'");
+} elseif ('login' == $_POST['action']) {
+  $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_POST['username'] . "'");
   $row = mysql_fetch_assoc($result);
-  if ($row && $_REQUEST['password'] == $row['password']) {
+  if ($row && $_POST['password'] == $row['password']) {
     $_SESSION['id'] = $row['id'];
     header("Location: index.php?action=list"); // redirect to list of notices
     exit;
@@ -62,10 +62,10 @@ if (!array_key_exists('action', $_REQUEST)) {
 
 <?php
 // -------------------------- DISPLAY LIST OF NOTICES
-} elseif ('create' == $_REQUEST['action'] || 'list' == $_REQUEST['action']) {
-  if ('create' == $_REQUEST['action']) {
+} elseif ('create' == $_POST['action'] || 'list' == $_GET['action']) {
+  if ('create' == $_POST['action']) {
     // ---------------------- CREATE NEW NOTICE
-    mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_REQUEST['notice'] . "')");
+    mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_POST['notice'] . "')");
   }
 ?>
   <form method='post'>
