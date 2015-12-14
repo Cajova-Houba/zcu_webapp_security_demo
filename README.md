@@ -17,13 +17,17 @@ Created for University of West Bohemia.
 ```
 * in browser go to http://192.168.33.10/index.php
 
+## OWASP top 10 examples
+* https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project
+
+### A1 – Injection
 
 
 
 
+___
 
-
-TODOs:
+### TODOs:
 - when you start the machine for the first time there is mysql error at the end of the provisioning:
   - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
   - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
