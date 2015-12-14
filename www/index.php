@@ -26,6 +26,12 @@
 <?php
 echo '<h5>Logged as: ' . $current_user . '</h5><hr>';
 
+// $_REQUEST['username'] = "'; DELETE FROM notice_board; --";
+// $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'");
+// echo "SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'" . "<br>";
+// $row = mysql_fetch_row($result);
+// print_r($row);
+
 // -------------------------- DISPLAY LOGIN FORM
 if (!array_key_exists('action', $_REQUEST)) {
 ?>
@@ -44,9 +50,9 @@ if (!array_key_exists('action', $_REQUEST)) {
 <?php
 // -------------------------- PROCESS LOGIN
 } elseif ('login' == $_REQUEST['action']) {
-  $result = mysql_query("SELECT id FROM user WHERE username='" . $_REQUEST['username'] . "' AND password='" . $_REQUEST['password'] . "'");
+  $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'");
   $row = mysql_fetch_assoc($result);
-  if ($row) {
+  if ($row && $_REQUEST['password'] == $row['password']) {
     $_SESSION['id'] = $row['id'];
     header("Location: index.php?action=list"); // redirect to list of notices
     exit;
@@ -56,7 +62,11 @@ if (!array_key_exists('action', $_REQUEST)) {
 
 <?php
 // -------------------------- DISPLAY LIST OF NOTICES
-} elseif ('list' == $_REQUEST['action']) {
+} elseif ('create' == $_REQUEST['action'] || 'list' == $_REQUEST['action']) {
+  if ('create' == $_REQUEST['action']) {
+    // ---------------------- CREATE NEW NOTICE
+    mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_REQUEST['notice'] . "')");
+  }
 ?>
   <form method='post'>
     Notice:<br>
@@ -73,19 +83,7 @@ if (!array_key_exists('action', $_REQUEST)) {
   }
 ?>
   </table>
-<?php
-  mysql_close($conn);
-?>
 
-
-<?php
-// -------------------------- CREATE NEW NOTICE
-} elseif ('create' == $_REQUEST['action']) {
-  echo 'yyyyyyyyyyyyy ' . $_REQUEST['notice'];
-  mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_REQUEST['notice'] . "')");
-
-  echo '<br> xxxxxxxxxxxxxxxxxxxxxxxxx';
-?>
 <?php
 }
 ?>
