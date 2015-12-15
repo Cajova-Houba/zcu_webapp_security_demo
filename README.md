@@ -53,3 +53,6 @@ vagrant plugin install vagrant-vbguest
 ```bash
 root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
 ```
+
+### Cross-Site Request Forgery
+* try this: http://192.168.33.10/index.php?action=create&notice=pokus
