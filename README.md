@@ -88,5 +88,26 @@ mount -t vboxsf -o uid=`id -u vagrant`,gid=`id -g vagrant` opt_zcu_demo /opt/zcu
   - Problem description and solution described here: https://github.com/dotless-de/vagrant-vbguest/issues/170
    - shortly: vagrant ssh, sudo systemctl enable vboxadd, service vboxadd start, vagrant reload, vagrant provision
 
-#### 2) Building the main Guest Additions module[FAILED] (+ other errors)
+#### 2) Building the main Guest Additions module fail --> sync folder not mounted
+```bash
+...
+Installing Virtualbox Guest Additions 5.0.10 - guest version is unknown
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 5.0.10 Guest Additions for Linux............
+VirtualBox Guest Additions installer
+Removing installed version 5.0.10 of VirtualBox Guest Additions...
+Removing existing VirtualBox non-DKMS kernel modules[  OK  ]
+Copying additional installer modules ...
+Installing additional modules ...
+Removing existing VirtualBox non-DKMS kernel modules[  OK  ]
+Building the VirtualBox Guest Additions kernel modules
+The headers for the current running kernel were not found. If the following
+module compilation fails then this could be the reason.
+The missing package can be probably installed with
+yum install kernel-devel-3.10.0-229.14.1.el7.x86_64
+
+Building the main Guest Additions module[FAILED]
+(Look at /var/log/vboxadd-install.log to find out what went wrong)
+...
+```
    - shortly: vagrant ssh, sudo yum update, Ctrl+D, vagrant reload
