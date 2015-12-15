@@ -7,7 +7,7 @@ Created for University of West Bohemia.
 * Install [Vagrant](https://docs.vagrantup.com/v2/installation/index.html "Vagrant docs - Istallation")
 * Install Vagrant plugin for VirtualBox guest additions
 ```bash
-vagrant plugin install vagrant-vbguest
+> vagrant plugin install vagrant-vbguest
 ```
 * checkout this repository
 ```bash
