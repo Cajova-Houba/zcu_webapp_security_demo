@@ -24,8 +24,12 @@ Vagrant.configure(2) do |config|
     sudo systemctl enable mariadb.service
     sudo yum -y install php php-mysql
     sudo yum clean all
+
     mysql -u root < /opt/zcu_demo/db/create_db.ddl
     mysql -u root zcu_demo < /opt/zcu_demo/db/init_data.dml
     sudo cp /opt/zcu_demo/www/index.php /var/www/html/
+
+    sudo systemctl restart mariadb
+    sudo systemctl restart httpd
   SHELL
 end
