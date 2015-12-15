@@ -46,6 +46,14 @@ vagrant plugin install vagrant-vbguest
 ___
 
 ### TODOs:
-- when you start the machine for the first time there is mysql error at the end of the provisioning:
-  - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
-  - ==> default: ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)
+- misconfiguration - ukazat ze to vylistuje adresar - udelat novyho virtualhosta nebo
+- directory traversal
+
+
+### Troubleshooting
+ - Failed to mount folders in Linux guest. This is usually because the "vboxsf" file system is not available. Please verify that the guest additions are properly installed in the guest and  can work properly. The command attempted was:
+  - mount -t vboxsf -o uid=`id -u vagrant`,gid=`getent group vagrant | cut -d: -f3` opt_zcu_demo /opt/zcu_demo
+  - mount -t vboxsf -o uid=`id -u vagrant`,gid=`id -g vagrant` opt_zcu_demo /opt/zcu_demo
+  - The error output from the last command was:
+    - /sbin/mount.vboxsf: mounting failed with the error: No such device
+ - Problem description and solution described here: https://github.com/dotless-de/vagrant-vbguest/issues/170
