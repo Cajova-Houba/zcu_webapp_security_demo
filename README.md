@@ -28,6 +28,11 @@ vagrant plugin install vagrant-vbguest
 ```sql
 ' OR id='2
 ```
+* or even worst
+```sql
+'; UPDATE  user SET password='123
+'; DELETE FROM user WHERE id='8
+```
 
 ### XSS
 * put following text as notice

@@ -51,9 +51,7 @@ if (!array_key_exists('action', $_GET) && !array_key_exists('action', $_POST)) {
 // -------------------------- PROCESS LOGIN
 } elseif ('login' == $_POST['action']) {
   $result = mysql_query("SELECT id,password FROM user WHERE username='" . $_POST['username'] . "'" . " AND password='" . $_POST['password'] . "'");
-  $row = mysql_fetch_assoc($result);
-echo "SELECT id,password FROM user WHERE username='" . $_POST['username'] . "'" . " AND password='" . $_POST['password'] . "'";
-print_r($row);
+  $row = mysql_fetch_row($result);
   if ($row) {
     $_SESSION['id'] = $row['id'];
     header("Location: index.php?action=list"); // redirect to list of notices
