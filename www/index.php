@@ -57,6 +57,8 @@ if (!$action) {
     $_SESSION['id'] = $row['id'];
     header("Location: index.php?action=list"); // redirect to list of notices
     exit;
+  } else {
+    echo "wrong username/password";
   }
 
 
