@@ -15,10 +15,11 @@ Created for University of West Bohemia.
 ```
 * run vagrant box
 ```bash
-> cd $PRJ_HOME
+> cd zcu_webapp_security_demo
 > vagrant up
 ```
-* in browser go to http://192.168.33.10/index.php
+* for the first time it will take about 15 minutes till vagrant is ready (depending on your internet connection)
+* in browser go to http://192.168.33.10/zcu/index.php
 
 ## OWASP top 10 examples
 * https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project
@@ -55,4 +56,58 @@ root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12
 ```
 
 ### Cross-Site Request Forgery
-* try this: http://192.168.33.10/index.php?action=create&notice=pokus
+* try this: http://192.168.33.10/zcu/index.php?action=create&notice=pokus
+
+
+### Security Misconfiguration
+* Directory listing is not disabled on your server
+  * try this: http://192.168.33.10/zcu/list
+  * selinux (setenforce 0, setenforce 1)
+* Directory traversal
+  * try this: http://192.168.33.10/zcu/list/get_file.php?file=../index.php
+  * or this: http://192.168.33.10/zcu/list/get_file.php?file=../../../../etc/passwd
+
+
+## Where to go next
+See https://www.owasp.org/index.php/Category:OWASP_Top_Ten_2013_Project
+____
+
+
+### Vagrant troubleshooting (Fedora 23)
+
+#### 1) Failed to mount folders in Linux guest.
+```bash
+Failed to mount folders in Linux guest. This is usually because the "vboxsf" file system is not
+available. Please verify that the guest additions are properly installed in the guest and  can
+work properly. The command attempted was:
+mount -t vboxsf -o uid=`id -u vagrant`,gid=`getent group vagrant | cut -d: -f3` opt_zcu_demo /opt/zcu_demo
+mount -t vboxsf -o uid=`id -u vagrant`,gid=`id -g vagrant` opt_zcu_demo /opt/zcu_demo
+...
+/sbin/mount.vboxsf: mounting failed with the error: No such device
+```
+  - Problem description and solution described here: https://github.com/dotless-de/vagrant-vbguest/issues/170
+   - shortly: vagrant ssh, sudo systemctl enable vboxadd, service vboxadd start, vagrant reload, vagrant provision
+
+#### 2) Building the main Guest Additions module fail --> sync folder not mounted
+```bash
+...
+Installing Virtualbox Guest Additions 5.0.10 - guest version is unknown
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 5.0.10 Guest Additions for Linux............
+VirtualBox Guest Additions installer
+Removing installed version 5.0.10 of VirtualBox Guest Additions...
+Removing existing VirtualBox non-DKMS kernel modules[  OK  ]
+Copying additional installer modules ...
+Installing additional modules ...
+Removing existing VirtualBox non-DKMS kernel modules[  OK  ]
+Building the VirtualBox Guest Additions kernel modules
+The headers for the current running kernel were not found. If the following
+module compilation fails then this could be the reason.
+The missing package can be probably installed with
+yum install kernel-devel-3.10.0-229.14.1.el7.x86_64
+
+Building the main Guest Additions module[FAILED]
+(Look at /var/log/vboxadd-install.log to find out what went wrong)
+...
+```
+   - shortly: vagrant ssh, sudo yum update, Ctrl+D, vagrant reload
