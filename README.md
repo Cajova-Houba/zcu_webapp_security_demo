@@ -72,7 +72,8 @@ root> tcpdump -A -vvv -i vboxnet1 host 192.168.33.10
 
 
 ## Where to go next
-See https://www.owasp.org/index.php/Category:OWASP_Top_Ten_2013_Project
+* [OWASP Top Ten 2013 Project](https://www.owasp.org/index.php/Category:OWASP_Top_Ten_2013_Project)
+* [OWASP Secure Coding Practices](https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf)
 ____
 
 
