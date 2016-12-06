@@ -3,7 +3,7 @@ Small education project demonstrating typical security vulnerabilities in web ap
 Created for University of West Bohemia.
 
 ## Installation
-* Install VirtualBox
+* Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * Install [Vagrant](https://docs.vagrantup.com/v2/installation/index.html "Vagrant docs - Istallation")
 * Install Vagrant plugin for VirtualBox guest additions
 ```bash
@@ -28,10 +28,11 @@ Created for University of West Bohemia.
 * put that as password (empty username)
 ```sql
 ' OR id='2
+' OR username='alfa
 ```
 * or even worst
 ```sql
-'; UPDATE  user SET password='123
+'; UPDATE user SET password='123
 '; DELETE FROM user WHERE id='8
 ```
 
@@ -52,7 +53,7 @@ Created for University of West Bohemia.
 ### Sensitive Data Exposure
 * to monitor HTTP traffic
 ```bash
-root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
+root> tcpdump -A -vvv -i vboxnet1 host 192.168.33.10
 ```
 
 ### Cross-Site Request Forgery
@@ -64,8 +65,9 @@ root> tcpdump -A -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12
   * try this: http://192.168.33.10/zcu/list
   * selinux (setenforce 0, setenforce 1)
 * Directory traversal
-  * try this: http://192.168.33.10/zcu/list/get_file.php?file=../index.php
-  * or this: http://192.168.33.10/zcu/list/get_file.php?file=../../../../etc/passwd
+  * for this reason: http://192.168.33.10/zcu/list/fancy_script.php
+  * but can be misused: http://192.168.33.10/zcu/list/get_file.php?file=../index.php
+  * or even worst: http://192.168.33.10/zcu/list/get_file.php?file=../../../../etc/passwd
 
 
 ## Where to go next
