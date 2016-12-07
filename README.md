@@ -20,6 +20,9 @@ Created for University of West Bohemia.
 ```
 * for the first time it will take about 15 minutes till vagrant is ready (depending on your internet connection)
 * in browser go to http://192.168.33.10/zcu/index.php
+* for authentication use (username/password)
+ * foo/bar
+ * alfa/bravo
 
 ## OWASP top 10 examples
 * https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project
